@@ -1,0 +1,28 @@
+{
+    "properties": {
+        "sample": {
+            "default": "20-90206-1",
+            "title": "",
+            "type": "string"
+        },
+        "library_type": {
+            "default": "",
+            "title": "",
+            "type": "string",
+            "enum": [
+                "cdl", "exome"
+              ]
+        },
+        "out_base": {
+            "default": "s3://ncgl-prod.sample-bucket",
+            "title": "",
+            "type": "string"
+        }
+    },
+    "required": [
+        "sample", 
+        "library_type",
+        "out_base"
+    ],
+    "type": "object"
+}
