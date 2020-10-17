@@ -69,7 +69,7 @@ process finalize_libraries {
         """
         echo '${meta_json}' > meta.json
         
-        aws s3 --only-show-errors --exclude="*" --include="*.fastq.gz" --include="*.json" . ${library_path}/
+        aws s3 sync --only-show-errors --exclude="*" --include="*.fastq.gz" --include="*.json" . ${library_path}/
         """
 }
 
