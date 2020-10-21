@@ -58,7 +58,7 @@ process finalize_libraries {
           "barcode": config.barcodes,
           "library_id": library_id,
           "flowcell_id": config.fcid,
-          "lane_id": Integer.parseInt(config.lane)
+          "lane_id": Integer.parseInt(config.lane),
           "patient_test_id": config.sample_id,
           "project_id": "Clinical"
         ]
