@@ -59,7 +59,8 @@ process finalize_libraries {
           "library_id": library_id,
           "flowcell_id": config.fcid,
           "lane_id": Integer.parseInt(config.lane)
-          //"patient_test_id": ???
+          "patient_test_id": config.sample_id,
+          "project_id": "Clinical"
         ]
         def readgroup = "${config.fcid}.${config.lane}.${config.barcodes}"
 
