@@ -33,6 +33,8 @@ process bam_to_fastqs {
 
     READGROUPS=$(bam dumpHeader !{bam} | grep "^@RG" | cut -f2 | cut -f2 -d:)
 
+    ls *.fastq
+    
     for RG in $READGROUPS; do
         mkdir -p output/${RG}
         cat $(ls split.${RG}*_1.fastq) | gzip > output/${RG}/1.fastq.gz
