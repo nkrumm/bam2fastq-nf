@@ -4,11 +4,25 @@ Channel.fromPath("s3://ncgl-prod.sample-bucket/${params.sample}/${params.library
         .toSortedList({a, b -> a.lastModified() <=> b.lastModified()}).flatten().last() // take the most recent bam
         .set { bam_to_fastqs_ch }
     
+process preprocess_bam {
+    label 'preprocess'
+    echo true
+    input:
+        file(bam) from bam_to_fastqs_ch
+    output:
+        file("sorted.bam") into sorted_bam_ch
+
+    script:
+    """
+    samtools sort -n -m28G ${bam} -o sorted.bam
+    """
+}
+
 process bam_to_fastqs {
     label 'bamutils'
     echo true
     input: 
-        file(bam) from bam_to_fastqs_ch
+        file(bam) from sorted_bam_ch
     output:
         path("output/**.fastq.gz") into fastq_group_ch
         file("log.txt")
