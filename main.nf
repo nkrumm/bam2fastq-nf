@@ -33,13 +33,24 @@ process bam_to_fastqs {
 
     READGROUPS=$(bam dumpHeader !{bam} | grep "^@RG" | cut -f2 | cut -f2 -d:)
 
-    ls *.fastq
-    
     for RG in $READGROUPS; do
         mkdir -p output/${RG}
-        cat $(ls split.${RG}*_1.fastq) | gzip > output/${RG}/1.fastq.gz
-        cat $(ls split.${RG}*_2.fastq) | gzip > output/${RG}/2.fastq.gz
+        # find only those readgroups with matching read 1 and read 2
+        READ1=""
+        READ2=""
+        for FILE in $(ls split.${RG}*_1.fastq); do
+            if [[ -f $FILE && -f ${FILE/_1/_2} ]]; then
+                READ1="${READ1} $FILE"
+                READ2="${READ2} ${FILE/_1/_2}"
+            else 
+                echo "$FILE has no matching pairs" 
+            fi
+        done
+        # 
+        cat $(echo $READ1) | gzip > output/${RG}/1.fastq.gz
+        cat $(echo $READ2) | gzip > output/${RG}/2.fastq.gz
     done
+
     '''
 }
 
