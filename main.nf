@@ -39,11 +39,17 @@ process bam_to_fastqs {
         READ1=""
         READ2=""
         for FILE in $(ls split.${RG}*_1.fastq); do
-            if [[ -f $FILE && -f ${FILE/_1/_2} ]]; then
-                READ1="${READ1} $FILE"
-                READ2="${READ2} ${FILE/_1/_2}"
+            FILE1=$FILE
+            FILE2=${FILE/_1/_2}
+            if [[ -f $FILE1 && -f FILE2 ]]; then
+                if [ "$(wc -l < $FILE1)" -eq "$(wc -l < $FILE2)" ]; then
+                    READ1="${READ1} $FILE1"
+                    READ2="${READ2} $FILE2"
+                else
+                    echo "Mismatched # of reads for $FILE1 and $FILE2"
+                fi
             else 
-                echo "$FILE has no matching pairs" 
+                echo "$FILE1 has no matching pairs" 
             fi
         done
         # 
