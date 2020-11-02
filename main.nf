@@ -29,7 +29,7 @@ process bam_to_fastqs {
     shell:
     '''
     mkdir output
-    bam bam2FastQ --in !{bam} --splitRG --outBase split 2> log.txt
+    bam bam2FastQ --in !{bam} --splitRG --readname --outBase split 2> log.txt
 
     READGROUPS=$(bam dumpHeader !{bam} | grep "^@RG" | cut -f2 | cut -f2 -d:)
 
