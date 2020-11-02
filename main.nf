@@ -41,7 +41,7 @@ process bam_to_fastqs {
         for FILE in $(ls split.${RG}*_1.fastq); do
             FILE1=$FILE
             FILE2=${FILE/_1/_2}
-            if [[ -f $FILE1 && -f FILE2 ]]; then
+            if [[ -f $FILE1 && -f $FILE2 ]]; then
                 if [ "$(wc -l < $FILE1)" -eq "$(wc -l < $FILE2)" ]; then
                     READ1="${READ1} $FILE1"
                     READ2="${READ2} $FILE2"
