@@ -53,8 +53,8 @@ process bam_to_fastqs {
             fi
         done
         # 
-        cat $(echo $READ1) | gzip > output/${RG}/1.fastq.gz
-        cat $(echo $READ2) | gzip > output/${RG}/2.fastq.gz
+        cat $(echo $READ1) | seqkit rmdup - | gzip > output/${RG}/1.fastq.gz
+        cat $(echo $READ2) | seqkit rmdup - | gzip > output/${RG}/2.fastq.gz
     done
 
     '''
